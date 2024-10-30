@@ -1,10 +1,12 @@
 package services;
 
+import application.Aplication;
 import entities.Task;
 
 public interface Manager {
 
-    public void Add();
-    public void Delete();
-    public void Update();
+    void Add();
+    void Delete();
+   // void Read();
+    void Update();
 }

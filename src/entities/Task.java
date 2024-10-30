@@ -1,34 +1,30 @@
 package entities;
 import Enums.Priority;
 import Enums.Status;
+import application.Aplication;
 import services.Manager;
 
 public class Task {
-
     private String title;
     private String description;
     private Status status;
     private Priority priority;
-    // private Calendar initialDeadLine;
-    // private Calendar deadLine;
+    private Calendar initialDeadLine;
+    private Calendar deadLine;
     private boolean isRepeating = false;
     private boolean isConcluded = false;
+    Category category;
 
-    public Task (){
 
-    }
-
-    public Task( String title , String description, Priority priority){
+    public Task( String title, String description, Status status, Priority priority, Category category){
         this.title = title;
         this.description = description;
         this.status = Status.PENDING;
         this.priority = priority;
+        this.category = category;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
+    public String getTitle() { return title;}
     public void setTitle(String title) {
         this.title = title;
     }
@@ -64,7 +60,6 @@ public class Task {
     public boolean isConcluded() {
         return isConcluded;
     }
-
     public void setConcluded(boolean concluded) {
         isConcluded = concluded;
     }

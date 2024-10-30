@@ -3,8 +3,11 @@ package services;
 import entities.User;
 import exceptions.ManagerException;
 
-public class UserManager extends User {
+import java.util.ArrayList;
 
+public abstract class UserManager extends User {
+
+    ArrayList <User> usuarios = new ArrayList<>();
     public void login(String username, String password){
 
         if (username != super.getUsername() && password != super.getPassword()){
