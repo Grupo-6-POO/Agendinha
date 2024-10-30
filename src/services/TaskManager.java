@@ -1,71 +1,34 @@
 package services;
-import java.util.ArrayList;
-import java.util.Scanner;
-import Enums.Priority;
-import Enums.Status;
 import entities.Task;
+import exceptions.ManagerException;
 
-public abstract class TaskManager extends Task implements TaskCategoryManager {
+import java.util.ArrayList;
 
-    public TaskManager (String title , String description, Status status, Priority priority, Integer progress, boolean isRepeat){
-        super(title, description, status, priority, progress, isRepeat);
+public class TaskManager extends Task implements Manager {
+
+    private ArrayList<Task> historyConcludedTasks;
+    private CategoryManager categoryManager;
+
+    public TaskManager(){
+        this.categoryManager = new CategoryManager();
     }
-
-    protected ArrayList<Task> tasks = new ArrayList<>();
-
 
 
     @Override
-    public Manager add() {
-        Task task = new Task(getTitle(), getDescription(), getStatus(), getPriority(), getProgress(), getRepeating());
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Título da Tarefa: ");
-        setTitle(sc.nextLine());
-        System.out.println("Descrição da Tarefa: ");
-        setDescription(sc.nextLine());
-        System.out.println("Repetir? \n1 - SIM\n2 - NÃO\n");
-        String resposta = sc.nextLine();
-        if (resposta == "1"){
-            setRepeating(true);
-        }
-        else if (resposta == "2") {
-            setRepeating(false);
-        }
-        else {
-            System.out.println("Resposta Inválida");
-        }
-
-        tasks.add(task);
-        System.out.printf("Sua Tarefa foi criada com sucesso e está com o status " + getStatus());
-        return task;
+    public void Add() {
+        Task task = new Task();
+        categoryManager.getTasks().add(task);
+        int taskCount = categoryManager.getTasks().size();
+        System.out.println(taskCount);
     }
 
     @Override
-    public void delete() {
+    public void Delete() {
 
     }
 
     @Override
-    public void read() {
+    public void Update() {
 
     }
-
-    @Override
-    public void update() {
-
-    }
-
-
-
-
-
-//+concludeTask: void
-//+showTask: void //vai ser o void read
-//+increaseProgress: int
-//+setPriority: Priority
-//+setStatus: Status
-//+verifyTask: Task
-// Add: void
-// Delete: void
-//+rename: void
 }

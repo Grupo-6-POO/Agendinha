@@ -2,55 +2,70 @@ package entities;
 import Enums.Priority;
 import Enums.Status;
 import services.Manager;
-import services.TaskManager;
 
-import java.util.Scanner;
+public class Task {
 
-public class Task extends Manager{
     private String title;
     private String description;
     private Status status;
     private Priority priority;
-    private Integer progress;
-   // private Calendar initialDeadLine;
-   // private Calendar deadLine;
-    private boolean isRepeating;
+    // private Calendar initialDeadLine;
+    // private Calendar deadLine;
+    private boolean isRepeating = false;
+    private boolean isConcluded = false;
 
     public Task (){
 
     }
 
-    public Task( String title , String description, Status status, Priority priority, Integer progress, boolean isRepeating){
+    public Task( String title , String description, Priority priority){
         this.title = title;
         this.description = description;
         this.status = Status.PENDING;
         this.priority = priority;
-        this.progress = progress;
-        this.isRepeating = isRepeating;
     }
 
-    //Obs: Estava dando erro então eu tive q adicionar isso aq (era isso ou transforma em abstrata
-    public Manager add() { return null; }
-    public void delete(){    }
-    public void update(){}
-    public void read(){}
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description;}
+    public Status getStatus() {
+        return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-    public Status getStatus() { return status;}
-    public void setStatus(Status status) { this.status = status; }
+    public Priority getPriority() {
+        return priority;
+    }
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
 
-    public Priority getPriority() { return priority; }
-    public void setPriority(Priority priority) { this.priority = priority; }
+    public boolean getRepeating() {
+        return isRepeating;
+    }
+    public void setRepeating(boolean repeating) {
+        isRepeating = repeating;
+    }
 
-    public Integer getProgress() { return progress; }
-    public void setProgress(Integer progress) { this.progress = progress; }
+    public boolean isConcluded() {
+        return isConcluded;
+    }
 
-    public boolean getRepeating() { return isRepeating; }
-    public void setRepeating(boolean repeating) { isRepeating = repeating; }
+    public void setConcluded(boolean concluded) {
+        isConcluded = concluded;
+    }
 }
