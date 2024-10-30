@@ -9,5 +9,6 @@ public class Main {
         TaskManager taskManager = new TaskManager();
 
         taskManager.Add();
+        System.out.println(taskManager);
     }
 }
