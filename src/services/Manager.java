@@ -1,12 +1,9 @@
 package services;
 
-import application.Aplication;
-import entities.Task;
+public interface Manager <T>{
 
-public interface Manager {
-
-    void Add();
-    void Delete();
-   // void Read();
-    void Update();
+    void Add(T item);
+    void Delete(T item);
+    void Read(T item);
+    void Update(T item);
 }
