@@ -1,8 +1,6 @@
 package entities;
 import Enums.Priority;
 import Enums.Status;
-import application.Aplication;
-import services.Manager;
 
 public class Task {
     private String title;
