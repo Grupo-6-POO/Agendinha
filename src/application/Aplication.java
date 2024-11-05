@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 //Classe teste
 public class Aplication implements Serializable{
-    public static void main(String[] args) throws IOException,
-          ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
       ArrayList <User> usuarios = new ArrayList<>();
       usuarios.add(new User("Bruna", "1234"));
       usuarios.add(new User("Lucas", "5678"));
