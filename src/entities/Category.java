@@ -9,7 +9,7 @@ public class Category {
     private String description;
     private List<Task> taskList = new ArrayList<>();
 
-    public Category(){
+    public Category() {
 
     }
 
@@ -18,10 +18,17 @@ public class Category {
         this.description = description;
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public List<Task> getTaskList() { return taskList; }
+    public String getName() {
+        return name;
+    }
 
-    public void addTask(Task task) { taskList.add(task); }
-    public void removeTask(Task task) { taskList.remove(task); }
+    public String getDescription() {
+        return description;
+    }
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
 }
+
+

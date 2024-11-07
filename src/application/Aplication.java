@@ -16,7 +16,7 @@ public class Aplication implements Serializable{
     }
 
 
-      public static void salvarUsuario( User usuario) throws IOException {
+      public static void salvarUsuario(User usuario) throws IOException {
         FileOutputStream fos = new FileOutputStream("../data.txt");
         ObjectOutputStream os = new ObjectOutputStream(fos);
 

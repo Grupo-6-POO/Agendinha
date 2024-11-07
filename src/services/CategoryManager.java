@@ -57,4 +57,12 @@ public class CategoryManager extends Category implements Manager<Category>{
         }
         throw new ManagerException("Erro: Category not found.");
     }
+
+    public void addTask(Task task) {
+        super.getTaskList().add(task);
+    }
+
+    public void removeTask(Task task) {
+        super.getTaskList().remove(task);
+    }
 }
