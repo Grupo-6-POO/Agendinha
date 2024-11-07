@@ -1,10 +1,15 @@
 package services;
 
-public interface Manager <T>{
+public abstract class Manager {
 
-    T Add(T item);
-    //Obs: o metodo acima retorna um objeto, está opção pode ser alterada futuramente conforme o desenvolvimento do projeto
-    void Delete(T item);
-    void Read(T item);
-    void Update(T item);
+    public void startClass(){
+        System.out.println("Método que vai ser sobreescrito!");
+    }
+
+    public abstract Manager Add();
+    public abstract void Delete();
+    public abstract void Read();
+    public abstract void Update();
+}
+
 }

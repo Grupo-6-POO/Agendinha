@@ -1,9 +1,11 @@
 package entities;
 
+import services.Manager;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category extends Manager {
 
     private String name;
     private String description;

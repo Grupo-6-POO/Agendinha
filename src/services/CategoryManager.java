@@ -6,8 +6,9 @@ import exceptions.ManagerException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryManager extends Category implements Manager<Category>{
+public class CategoryManager extends Category{
 
+    Category category;
     private List<Category> categories = new ArrayList<>();
 
     public CategoryManager() {
@@ -15,7 +16,7 @@ public class CategoryManager extends Category implements Manager<Category>{
     }
 
     @Override
-    public Category Add(Category category) {
+    public Category Add() {
         categories.add(category);
         System.out.println("Categoria adicionada: " + category.getName());
         return null;

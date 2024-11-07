@@ -1,8 +1,9 @@
 package entities;
 import Enums.Priority;
 import Enums.Status;
+import services.Manager;
 
-public class Task {
+public class Task extends Manager {
     private String title;
     private String description;
     private Status status;
@@ -60,5 +61,25 @@ public class Task {
     }
     public void setConcluded(boolean concluded) {
         isConcluded = concluded;
+    }
+
+    @Override
+    public Task Add() {
+        return null;
+    }
+
+    @Override
+    public void Delete() {
+
+    }
+
+    @Override
+    public void Read() {
+
+    }
+
+    @Override
+    public void Update() {
+
     }
 }
