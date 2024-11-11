@@ -21,7 +21,7 @@ public class TaskManager extends Task {
 
 
     @Override
-    public void startClass(Manager task) {
+    public void startClass(Task task) {
         taskList = new ArrayList<>();
         System.out.println("Método sobreescrevido");
         taskList.add((Task) task);
@@ -34,6 +34,7 @@ public class TaskManager extends Task {
         return null;
     }
 
+    @Override
     public Task add(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Título da Tarefa: ");
@@ -65,13 +66,13 @@ public class TaskManager extends Task {
         taskList.remove(task);
         System.out.println("Tarefa removida: " + task.getTitle());
     }
-    public void read(){
+    public void read(Task task){
         System.out.println(getTitle());
         System.out.println(getDescription());
         System.out.println(getStatus());
         System.out.println(getPriority());
     }
-    public  void update(){
+    public  void update(Task task){
         Scanner sc = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n");
     }

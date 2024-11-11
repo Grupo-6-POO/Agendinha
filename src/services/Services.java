@@ -1,8 +1,8 @@
 package services;
 
 public interface Services <M> {
-    Manager add();
-    void delete(M m);
-    void read(M m);
-    void update(M m);
+    M add();
+    void delete(M obj);
+    void read(M obj);
+    void update(M obj);
 }

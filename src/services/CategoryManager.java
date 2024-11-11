@@ -33,7 +33,7 @@ public class CategoryManager extends Category{
     }
 
     @Override
-    public void read(Manager category) {
+    public void read(Category category) {
 
     }
 

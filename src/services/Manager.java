@@ -1,16 +1,18 @@
 package services;
 import Enums.Priority;
+import entities.Category;
+import entities.Task;
 
-public abstract class Manager implements Services <Manager>{
+public abstract class Manager<M> implements Services <M> {
 
-    public void startClass(Manager manager){
+    public void startClass(M manager){
         System.out.println("Método que vai ser sobreescrito!");
     }
 
-    public abstract Manager add();
-    public abstract void delete(Manager m);
-    public abstract void read(Manager m);
-    public abstract void update(Manager m);
+    public abstract M add();
+    public abstract void delete(M obj);
+    public abstract void read(M obj);
+    public abstract void update(M obj);
 }
 
 

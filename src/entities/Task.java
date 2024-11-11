@@ -6,7 +6,7 @@ import services.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task extends Manager {
+public class Task extends Manager <Task>{
     private String title;
     private String description;
     private Status status = Status.PENDING;
@@ -45,24 +45,23 @@ public class Task extends Manager {
     public void setConcluded(boolean concluded) { isConcluded = concluded; }
 
 
-
     @Override
     public Task add() {
         return null;
     }
 
     @Override
-    public void delete(Manager task) {
+    public void delete(Task obj) {
 
     }
 
     @Override
-    public void read(Manager task) {
+    public void read(Task obj) {
 
     }
 
     @Override
-    public void update(Manager task) {
+    public void update(Task obj) {
 
     }
 }
