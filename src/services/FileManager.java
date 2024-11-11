@@ -55,4 +55,5 @@ public class FileManager {
             System.out.println(line);
         }
     }
+    public void lerArquivoScanner(){}
 }

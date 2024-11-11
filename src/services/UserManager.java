@@ -2,7 +2,7 @@ package services;
 import entities.User;
 import java.util.Scanner;
 
-public abstract class UserManager extends User {
+public class UserManager extends User {
 
     public UserManager(String login, String senha, boolean isLogado) {
         super(login, senha, isLogado);

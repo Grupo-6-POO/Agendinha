@@ -11,6 +11,6 @@ public class Home extends InterfaceGrafica{
         JButton buttonTXT = new JButton("TXT");
         buttonTXT.addActionListener(e -> changePanel(new FilePanel("TXT","./data/data.txt").mostrar()));
 
-        return null;
+        return panel;
     }
 }

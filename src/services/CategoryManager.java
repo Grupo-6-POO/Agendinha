@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CategoryManager extends Category{
 
+    Task task;
     Category category;
     private List<Category> categories = new ArrayList<>();
 
@@ -16,14 +17,14 @@ public class CategoryManager extends Category{
     }
 
     @Override
-    public Category Add() {
+    public Category add() {
         categories.add(category);
         System.out.println("Categoria adicionada: " + category.getName());
         return null;
     }
 
-    @Override
-    public void Delete(Category category) {
+   // @Override
+    public void delete(Category category) {
         if (!categories.remove(category)) {
             throw new ManagerException("Erro: Category not found.");
         }
@@ -32,12 +33,12 @@ public class CategoryManager extends Category{
     }
 
     @Override
-    public void Read(Category item) {
+    public void read(Manager category) {
 
     }
 
-    @Override
-    public void Update(Category category) {
+    //@Override
+    public void update(Category category) {
         for (Category cat : categories) {
             if (cat.getName().equals(category.getName())) {
                 System.out.println("Category successfully updated: " + cat.getName());
@@ -66,4 +67,6 @@ public class CategoryManager extends Category{
     public void removeTask(Task task) {
         super.getTaskList().remove(task);
     }
+
+
 }

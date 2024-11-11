@@ -5,7 +5,7 @@ import services.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category extends Manager {
+public class Category extends Manager{
 
     private String name;
     private String description;
@@ -30,6 +30,26 @@ public class Category extends Manager {
 
     public List<Task> getTaskList() {
         return taskList;
+    }
+
+    @Override
+    public Manager add() {
+        return null;
+    }
+
+    @Override
+    public void delete(Manager m) {
+
+    }
+
+    @Override
+    public void read(Manager m) {
+
+    }
+
+    @Override
+    public void update(Manager m) {
+
     }
 }
 
