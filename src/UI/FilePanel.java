@@ -1,4 +1,4 @@
-package graficInterface;
+package UI;
 
 import services.FileManager;
 

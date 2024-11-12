@@ -1,16 +1,20 @@
 package entities;
 
 public class User {
-    private String login;
-    private String senha;
+    private String username;
+    private String password;
     private boolean isLogado = false;
 
-    public User(String login, String senha, boolean isLogado){
-        this.login = login;
-        this.senha = senha;
-        this.isLogado = isLogado;
+    public User() {
+        this.username = "Lucas";
+        this.password = "1234";
     }
 
-    public String getLogin() { return login; }
-    public String getSenha() { return senha; }
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

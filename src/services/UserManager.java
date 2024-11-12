@@ -1,23 +1,25 @@
 package services;
 import entities.User;
+import exceptions.ManagerException;
+
 import java.util.Scanner;
 
 public class UserManager extends User {
 
+    public UserManager(){
+        super();
+    }
+
     public UserManager(String login, String senha, boolean isLogado) {
-        super(login, senha, isLogado);
+        super();
     }
 
-    public User login(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite o seu Login:");
-        String login = sc.nextLine();
-        System.out.println("Digite sua Senha:");
-        String senha = sc.nextLine();
-        if (login.equals(getLogin()) || senha.equals(getSenha())){
-            System.out.println("Login realizado com sucesso!");
+    public void verifyLogin(String username, String password){
+        if(!super.getUsername().equals(username) || !super.getPassword().equals(password)){
+            throw new ManagerException("Error: Username or password incorrect");
         }
-
-        return null;
+        System.out.println("Login successfully");
     }
+
 }
+

@@ -1,4 +1,4 @@
-package graficInterface;
+package UI;
 import javax.swing.*;
 
 public abstract class InterfaceGrafica {

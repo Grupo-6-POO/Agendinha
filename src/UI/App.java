@@ -1,5 +1,4 @@
-package graficInterface;
-import javax.swing.*;
+package UI;
 
 public class App {
     public static void main(String[] args) {
