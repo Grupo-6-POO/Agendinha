@@ -1,6 +1,5 @@
 package UI;
 
-import UI.Menu;
 import exceptions.ManagerException;
 import services.UserManager;
 
@@ -94,6 +93,7 @@ public class Login {
                 try {
                     userManager.verifyLogin(usuario, senha); // Método de verificação do usuário
                     JOptionPane.showMessageDialog(frame, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
                     frame.dispose();
                     new Menu();
                 } catch (ManagerException ex) {
