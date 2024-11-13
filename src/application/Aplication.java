@@ -5,6 +5,7 @@ import entities.Task;
 import entities.User;
 import services.TaskManager;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -18,6 +19,14 @@ public class Aplication implements Serializable{
         salvarTask(task);
         carregarTask();
         System.out.println(task);
+
+
+
+        String senha = JOptionPane.showInputDialog(null, "Senha");
+        System.out.println(senha);
+
+
+
     }
 
 

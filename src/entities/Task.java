@@ -3,10 +3,11 @@ import Enums.Priority;
 import Enums.Status;
 import services.Manager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task extends Manager <Task>{
+public class Task extends Manager <Task> implements Serializable {
     private String title;
     private String description;
     private Status status = Status.PENDING;
@@ -44,6 +45,7 @@ public class Task extends Manager <Task>{
     public boolean isConcluded() { return isConcluded; }
     public void setConcluded(boolean concluded) { isConcluded = concluded; }
 
+    public Category getCategory() { return category; }
 
     @Override
     public Task add() {

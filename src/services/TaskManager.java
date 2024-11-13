@@ -4,12 +4,13 @@ import Enums.Status;
 import entities.Category;
 import entities.Task;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskManager extends Task implements Serializable {
+public class TaskManager extends Task{
     Category category;
 
     public TaskManager() {
@@ -38,6 +39,13 @@ public class TaskManager extends Task implements Serializable {
 
     @Override
     public Task add(){
+
+        JFrame frame = new JFrame("Adicionar Task: ");
+        frame.setSize(400, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Título da Tarefa: ");
         setTitle(sc.nextLine());
@@ -62,28 +70,38 @@ public class TaskManager extends Task implements Serializable {
         task = new Task(getTitle(), getDescription(), getPriority(), category);
         System.out.println("Sua Tarefa foi criada com sucesso e está com o status " + getStatus());
         sc.close();
+
+//        String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
+//        if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {
+//            categoryManager.addCategory(newCategoryName, "Description");
+//            addCategoryToUI(newCategoryName);
+//        }
+//
+//        try {
+//            return salvarTask(task);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return task;
+
     }
     public void delete(Task task){
         taskList.remove(task);
         System.out.println("Tarefa removida: " + task.getTitle());
     }
     public void read(Task task){
-        System.out.println(getTitle());
-        System.out.println(getDescription());
-        System.out.println(getStatus());
-        System.out.println(getPriority());
+        //Usar o toString();
     }
     public  void update(Task task){
         Scanner sc = new Scanner(System.in);
-        System.out.println("O que você deseja atualizar?\n");
+        System.out.println("O que você deseja atualizar?\n" + "[ 1 ] - Status:\n" + "[ 2 ]");
     }
     public List<Task> getAllTasks() {
         return category.getTaskList();
     }
 
     public List<Task> getTaskList() { return taskList; }
-    public void addTask(Task task) {}
+//    public void addTask(Task task) {}
 
     public static void salvarTask(Task task) throws IOException {
         FileOutputStream fos = new FileOutputStream("src/data/data.txt");
@@ -97,14 +115,14 @@ public class TaskManager extends Task implements Serializable {
         FileInputStream fis = new FileInputStream("src/data/data.txt");
         ObjectInputStream is = new ObjectInputStream(fis);
         Task task = (Task) is.readObject();
-
+        System.out.println(task);
         is.close();
         fis.close();
         return task;
     }
     @Override
     public String toString() {
-        return "Título: " + getTitle() + "\nDescrição: " + getDescription() + "\nPrioridade: " + getPriority();
+        return "Título: " + getTitle() + "\nDescrição: " + getDescription() + "\nPrioridade: " + getPriority() + "\nCategoria: " + getCategory() + "\nStatus: "+ getStatus();
     }
 
 }

@@ -2,13 +2,16 @@ package UI;
 
 import entities.Category;
 import services.CategoryManager;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static services.CategoryManager.carregarCategory;
+import static services.CategoryManager.salvarCategory;
 
 public class Menu {
     private JFrame frame;
@@ -33,6 +36,13 @@ public class Menu {
         configureSidebar();
         configureTopBar();
         configureTaskViewPanel();
+
+        try {
+            carregarCategory();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
 
         frame.setVisible(true);
     }
@@ -115,12 +125,11 @@ public class Menu {
         frame.add(taskViewPanel, BorderLayout.CENTER);
     }
 
-    private void addCategory() {
+    private void addCategory(){
         String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
-        if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {
-            categoryManager.addCategory(newCategoryName, "Description");
-            addCategoryToUI(newCategoryName);
-        }
+        categoryManager.add(newCategoryName);
+        addCategoryToUI(newCategoryName);
+
     }
 
     private void deleteCategory() {
@@ -182,7 +191,7 @@ public class Menu {
         return null;
     }
 
-    private void addCategoryToUI(String categoryName) {
+    public void addCategoryToUI(String categoryName) {
         JButton categoryButton = new JButton(categoryName);
         categoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
         categoryButton.setBackground(new Color(85, 85, 85));
@@ -207,5 +216,6 @@ public class Menu {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Menu::new);
+
     }
 }

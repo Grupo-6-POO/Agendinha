@@ -2,10 +2,11 @@ package entities;
 
 import services.Manager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category extends Manager <Category> {
+public class Category extends Manager <Category> implements Serializable {
 
     private String name;
     private String description;
@@ -23,24 +24,19 @@ public class Category extends Manager <Category> {
     public String getName() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
     }
-
-
+    public void setDescription(String description) { this.description = description; }
 
     public List<Task> getTaskList() {
         return taskList;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public Category add() {
