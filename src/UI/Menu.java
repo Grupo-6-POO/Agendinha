@@ -1,5 +1,8 @@
 package UI;
 
+import entities.Category;
+import services.CategoryManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +17,7 @@ public class Menu {
     private JPanel taskViewPanel;
     private CardLayout cardLayout;
     private Map<String, JPanel> categoryPanels;
+    private CategoryManager categoryManager;
 
     public Menu() {
         frame = new JFrame("Agendinha");
@@ -22,10 +26,10 @@ public class Menu {
         frame.setLocationRelativeTo(null);
 
         categoryPanels = new HashMap<>();
+        categoryManager = new CategoryManager();
 
         frame.setLayout(new BorderLayout());
 
-        // Configurações Visuais dos Componentes
         configureSidebar();
         configureTopBar();
         configureTaskViewPanel();
@@ -37,7 +41,7 @@ public class Menu {
         sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
         sidebar.setBackground(new Color(50, 50, 50));
-        sidebar.setPreferredSize(new Dimension(150, 600));
+        sidebar.setPreferredSize(new Dimension(170, 600));
         sidebar.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
 
         JLabel sidebarTitle = new JLabel("Categories");
@@ -45,6 +49,7 @@ public class Menu {
         sidebarTitle.setFont(new Font("Roboto", Font.BOLD, 18));
         sidebarTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Botão "Add Category"
         JButton addCategoryButton = new JButton("Add Category");
         addCategoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
         addCategoryButton.setBackground(new Color(70, 130, 180));
@@ -52,20 +57,35 @@ public class Menu {
         addCategoryButton.setFocusPainted(false);
         addCategoryButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         addCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addCategoryButton.addActionListener(e -> addCategory());
 
-        addCategoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String newCategory = JOptionPane.showInputDialog(frame, "New category name:");
-                if (newCategory != null && !newCategory.trim().isEmpty()) {
-                    addCategory(newCategory);
-                }
-            }
-        });
+        // Botão "Delete Category"
+        JButton deleteCategoryButton = new JButton("Delete Category");
+        deleteCategoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
+        deleteCategoryButton.setBackground(new Color(205, 92, 92));
+        deleteCategoryButton.setForeground(Color.WHITE);
+        deleteCategoryButton.setFocusPainted(false);
+        deleteCategoryButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        deleteCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteCategoryButton.addActionListener(e -> deleteCategory());
+
+        // Botão "Update Category"
+        JButton updateCategoryButton = new JButton("Update Category");
+        updateCategoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
+        updateCategoryButton.setBackground(new Color(255, 165, 0));
+        updateCategoryButton.setForeground(Color.WHITE);
+        updateCategoryButton.setFocusPainted(false);
+        updateCategoryButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        updateCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        updateCategoryButton.addActionListener(e -> updateCategory());
 
         sidebar.add(sidebarTitle);
         sidebar.add(Box.createVerticalStrut(20));
         sidebar.add(addCategoryButton);
+        sidebar.add(Box.createVerticalStrut(10));
+        sidebar.add(deleteCategoryButton);
+        sidebar.add(Box.createVerticalStrut(10));
+        sidebar.add(updateCategoryButton);
         sidebar.add(Box.createVerticalGlue());
 
         frame.add(sidebar, BorderLayout.WEST);
@@ -95,7 +115,74 @@ public class Menu {
         frame.add(taskViewPanel, BorderLayout.CENTER);
     }
 
-    private void addCategory(String categoryName) {
+    private void addCategory() {
+        String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
+        if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {
+            categoryManager.addCategory(newCategoryName, "Description");
+            addCategoryToUI(newCategoryName);
+        }
+    }
+
+    private void deleteCategory() {
+        String categoryName = JOptionPane.showInputDialog(frame, "Enter category name to delete:");
+
+        // Verifica se a categoria existe e é excluída com sucesso
+        if (categoryName != null && categoryManager.deleteCategory(categoryName)) {
+            JButton buttonToRemove = findCategoryButton(categoryName);
+
+            if (buttonToRemove != null) {
+                topBar.remove(buttonToRemove);
+                topBar.revalidate();
+                topBar.repaint();
+            }
+
+            // Remove o painel associado à categoria
+            taskViewPanel.remove(categoryPanels.remove(categoryName));
+            taskViewPanel.revalidate();
+            taskViewPanel.repaint();
+        } else {
+            JOptionPane.showMessageDialog(frame, "Category not found or could not be deleted.");
+        }
+    }
+
+    private void updateCategory() {
+        String categoryName = JOptionPane.showInputDialog(frame, "Enter category name to update:");
+        if (categoryName != null && categoryPanels.containsKey(categoryName)) {
+            String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
+            String newDescription = JOptionPane.showInputDialog(frame, "New description:");
+            if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {
+                // Atualiza o botão da categoria na interface gráfica
+                JButton categoryButton = findCategoryButton(categoryName);
+                if (categoryButton != null) {
+                    categoryButton.setText(newCategoryName);
+                }
+
+                // Atualiza o painel de visualização de tarefas associadas à categoria
+                JPanel categoryPanel = categoryPanels.get(categoryName);
+                if (categoryPanel != null) {
+                    categoryPanels.remove(categoryName); // Remove o painel antigo
+                    categoryPanels.put(newCategoryName, categoryPanel); // Adiciona com o novo nome
+                }
+                // Atualiza a interface gráfica
+                taskViewPanel.revalidate();
+                taskViewPanel.repaint();
+                JOptionPane.showMessageDialog(frame, "Category updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Category not found or could not be updated.");
+            }
+        }
+    }
+
+    private JButton findCategoryButton(String categoryName) {
+        for (Component component : topBar.getComponents()) {
+            if (component instanceof JButton && ((JButton) component).getText().equals(categoryName)) {
+                return (JButton) component;
+            }
+        }
+        return null;
+    }
+
+    private void addCategoryToUI(String categoryName) {
         JButton categoryButton = new JButton(categoryName);
         categoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
         categoryButton.setBackground(new Color(85, 85, 85));
@@ -103,12 +190,7 @@ public class Menu {
         categoryButton.setFocusPainted(false);
         categoryButton.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
 
-        categoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(taskViewPanel, categoryName);
-            }
-        });
+        categoryButton.addActionListener(e -> cardLayout.show(taskViewPanel, categoryName));
         topBar.add(categoryButton);
         topBar.revalidate();
         topBar.repaint();
@@ -117,17 +199,13 @@ public class Menu {
         categoryPanel.setBackground(Color.LIGHT_GRAY);
         categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
         categoryPanel.add(new JLabel("Tasks for: " + categoryName));
-        categoryPanel.setFont(new Font("Roboto", Font.BOLD, 24));
-        categoryPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createEmptyBorder(1, 1, 1, 1),
-                BorderFactory.createLineBorder(Color.BLACK, 3, true)
-        ));
+        categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         categoryPanels.put(categoryName, categoryPanel);
         taskViewPanel.add(categoryPanel, categoryName);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Menu());
+        SwingUtilities.invokeLater(Menu::new);
     }
 }

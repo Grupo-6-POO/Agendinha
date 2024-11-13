@@ -28,10 +28,19 @@ public class Category extends Manager <Category> {
         return description;
     }
 
+
+
     public List<Task> getTaskList() {
         return taskList;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public Category add() {

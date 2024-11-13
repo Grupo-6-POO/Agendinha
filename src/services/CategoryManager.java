@@ -16,20 +16,20 @@ public class CategoryManager extends Category{
         super();
     }
 
-    @Override
-    public Category add() {
+    public void addCategory(String name, String description) {
+        Category category = new Category(name, description);
         categories.add(category);
-        System.out.println("Categoria adicionada: " + category.getName());
-        return null;
     }
 
-   // @Override
-    public void delete(Category category) {
-        if (!categories.remove(category)) {
-            throw new ManagerException("Erro: Category not found.");
+    public boolean deleteCategory(String categoryName) {
+        // Verifica se a categoria existe e a remove
+        for (Category category : categories) {
+            if (category.getName().equals(categoryName)) {
+                categories.remove(category);
+                return true;
+            }
         }
-        System.out.println("Categoria succesfully removed: " + category.getName());
-
+        return false;
     }
 
     @Override
@@ -37,16 +37,14 @@ public class CategoryManager extends Category{
 
     }
 
-    //@Override
-    public void update(Category category) {
-        for (Category cat : categories) {
-            if (cat.getName().equals(category.getName())) {
-                System.out.println("Category successfully updated: " + cat.getName());
-                return;
+    public void updateCategory(String oldName, String newName, String newDescription) {
+        for (Category category : categories) {
+            if (category.getName().equals(oldName)) {
+                category.setName(newName);
+                category.setDescription(newDescription);
+                break;
             }
         }
-        throw new ManagerException("Erro: Category not found.");
-
     }
 
     public List<Category> getAllCategories() {
