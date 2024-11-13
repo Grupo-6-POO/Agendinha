@@ -1,4 +1,7 @@
 package services;
+import java.io.*;
+import entities.Task;
+import entities.User;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -56,4 +59,6 @@ public class FileManager {
         }
     }
     public void lerArquivoScanner(){}
+
+
 }

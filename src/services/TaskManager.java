@@ -3,11 +3,13 @@ import Enums.Priority;
 import Enums.Status;
 import entities.Category;
 import entities.Task;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskManager extends Task {
+public class TaskManager extends Task implements Serializable {
     Category category;
 
     public TaskManager() {
@@ -82,5 +84,27 @@ public class TaskManager extends Task {
 
     public List<Task> getTaskList() { return taskList; }
     public void addTask(Task task) {}
+
+    public static void salvarTask(Task task) throws IOException {
+        FileOutputStream fos = new FileOutputStream("src/data/data.txt");
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+
+        os.writeObject(task);
+        os.close();
+        fos.close();
+    }
+    public static Task carregarTask() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("src/data/data.txt");
+        ObjectInputStream is = new ObjectInputStream(fis);
+        Task task = (Task) is.readObject();
+
+        is.close();
+        fis.close();
+        return task;
+    }
+    @Override
+    public String toString() {
+        return "Título: " + getTitle() + "\nDescrição: " + getDescription() + "\nPrioridade: " + getPriority();
+    }
 
 }

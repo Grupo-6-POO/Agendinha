@@ -3,7 +3,7 @@ package entities;
 public class User {
     private String username;
     private String password;
-    private boolean isLogado = false;
+    private boolean isLogado;
 
     public User() {
         this.username = "Lucas";
