@@ -48,7 +48,7 @@ public class Task extends Manager <Task> implements Serializable {
     public Category getCategory() { return category; }
 
     @Override
-    public Task add() {
+    public Task add(Task obj) {
         return null;
     }
 

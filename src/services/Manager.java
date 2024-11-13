@@ -5,14 +5,13 @@ import entities.Task;
 
 public abstract class Manager<M> implements Services <M> {
 
-    public void startClass(M manager){
-        System.out.println("Método que vai ser sobreescrito!");
-    }
-
-    public abstract M add();
+    public abstract M add(M obj);
     public abstract void delete(M obj);
-    public abstract void read(M obj);
     public abstract void update(M obj);
+
+    public void read(M obj){
+        System.out.println("Titulo: " + "\nDescrição: ");
+    }
 }
 
 

@@ -9,16 +9,14 @@ import java.util.List;
 public class Category extends Manager <Category> implements Serializable {
 
     private String name;
-    private String description;
     private List<Task> taskList = new ArrayList<>();
 
     public Category() {
 
     }
 
-    public Category(String name, String description) {
+    public Category(String name) {
         this.name = name;
-        this.description = description;
     }
 
     public String getName() {
@@ -28,10 +26,6 @@ public class Category extends Manager <Category> implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) { this.description = description; }
 
     public List<Task> getTaskList() {
         return taskList;
@@ -39,7 +33,7 @@ public class Category extends Manager <Category> implements Serializable {
 
 
     @Override
-    public Category add() {
+    public Category add(Category obj) {
         return null;
     }
 

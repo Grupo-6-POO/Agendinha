@@ -23,13 +23,6 @@ public class TaskManager extends Task{
     private List<Task> taskList ;
 
 
-    @Override
-    public void startClass(Task task) {
-        taskList = new ArrayList<>();
-        System.out.println("Método sobreescrevido");
-        taskList.add((Task) task);
-    }
-
     public Category chooseCategory(){
         Category categorias;
         categorias = new CategoryManager();
@@ -37,15 +30,15 @@ public class TaskManager extends Task{
         return null;
     }
 
-    @Override
-    public Task add(){
 
+    public Task add(){
         JFrame frame = new JFrame("Adicionar Task: ");
         frame.setSize(400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 
+        String taskName = JOptionPane.showInputDialog(frame, "New category name:");
         Scanner sc = new Scanner(System.in);
         System.out.println("Título da Tarefa: ");
         setTitle(sc.nextLine());
@@ -70,6 +63,7 @@ public class TaskManager extends Task{
         task = new Task(getTitle(), getDescription(), getPriority(), category);
         System.out.println("Sua Tarefa foi criada com sucesso e está com o status " + getStatus());
         sc.close();
+
 
 //        String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
 //        if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {

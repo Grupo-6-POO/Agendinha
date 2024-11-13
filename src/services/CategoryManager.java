@@ -22,7 +22,7 @@ public class CategoryManager extends Category {
     private CardLayout cardLayout;
     private Map<String, JPanel> categoryPanels;
     private List<Category> categories = new ArrayList<>();
-    Menu menu;
+    FileManager fileManager;
 
 
     public CategoryManager() {
@@ -43,15 +43,11 @@ public class CategoryManager extends Category {
 
     public Category add(String categoryName)  {
         if (categoryName != null && !categoryName.trim().isEmpty()) {
-            Category category = new Category("","Description");
+            Category category = new Category("");
             category.setName(categoryName);
             categories.add(category);
-            try {
-                salvarCategory(category);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            fileManager = new FileManager("src/data/data.txt");
+            fileManager.saveData(categoryName);
         }
 
         System.out.println(category);
@@ -62,6 +58,14 @@ public class CategoryManager extends Category {
     @Override
     public void delete(Category obj) {
 
+//        // Verifica se a categoria existe e a remove
+//        for (Category category : categories) {
+//            if (category.getName().equals(categoryName)) {
+//                categories.remove(category);
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     @Override
@@ -78,7 +82,6 @@ public class CategoryManager extends Category {
         for (Category category : categories) {
             if (category.getName().equals(oldName)) {
                 category.setName(newName);
-                category.setDescription(newDescription);
                 break;
             }
         }
@@ -123,30 +126,7 @@ public class CategoryManager extends Category {
 
     @Override
     public String toString() {
-        return "Título: " + getName() + "\nDescrição: " + getDescription() ;}
+        return "Título: " + getName();}
 
-
-//    public void addCategoryToUI(String categoryName) {
-//        JButton categoryButton = new JButton(categoryName);
-//        categoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-//        categoryButton.setBackground(new Color(85, 85, 85));
-//        categoryButton.setForeground(Color.WHITE);
-//        categoryButton.setFocusPainted(false);
-//        categoryButton.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
-//
-//        categoryButton.addActionListener(e -> cardLayout.show(taskViewPanel, categoryName));
-//        topBar.add(categoryButton);
-//        topBar.revalidate();
-//        topBar.repaint();
-//
-//        JPanel categoryPanel = new JPanel();
-//        categoryPanel.setBackground(Color.LIGHT_GRAY);
-//        categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
-//        categoryPanel.add(new JLabel("Tasks for: " + categoryName));
-//        categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-//
-//        categoryPanels.put(categoryName, categoryPanel);
-//        taskViewPanel.add(categoryPanel, categoryName);
-//    }
 
 }

@@ -15,7 +15,7 @@ import static services.TaskManager.salvarTask;
 //Classe teste
 public class Aplication implements Serializable{
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Task task = new TaskManager("Nada", "So um teste", Priority.LOW, new Category("nada", "so um teste"));
+        Task task = new TaskManager("Nada", "So um teste", Priority.LOW, new Category("nada"));
         salvarTask(task);
         carregarTask();
         System.out.println(task);

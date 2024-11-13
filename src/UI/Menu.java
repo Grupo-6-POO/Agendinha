@@ -2,16 +2,15 @@ package UI;
 
 import entities.Category;
 import services.CategoryManager;
+import services.FileManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static services.CategoryManager.carregarCategory;
-import static services.CategoryManager.salvarCategory;
 
 public class Menu {
     private JFrame frame;
@@ -30,19 +29,15 @@ public class Menu {
 
         categoryPanels = new HashMap<>();
         categoryManager = new CategoryManager();
+        
+
 
         frame.setLayout(new BorderLayout());
 
         configureSidebar();
         configureTopBar();
         configureTaskViewPanel();
-
-        try {
-            carregarCategory();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+        carregarCategorias();
 
         frame.setVisible(true);
     }
@@ -158,7 +153,6 @@ public class Menu {
         String categoryName = JOptionPane.showInputDialog(frame, "Enter category name to update:");
         if (categoryName != null && categoryPanels.containsKey(categoryName)) {
             String newCategoryName = JOptionPane.showInputDialog(frame, "New category name:");
-            String newDescription = JOptionPane.showInputDialog(frame, "New description:");
             if (newCategoryName != null && !newCategoryName.trim().isEmpty()) {
                 // Atualiza o botão da categoria na interface gráfica
                 JButton categoryButton = findCategoryButton(categoryName);
@@ -214,6 +208,15 @@ public class Menu {
         taskViewPanel.add(categoryPanel, categoryName);
     }
 
+    public void carregarCategorias() {
+        FileManager fileManager = new FileManager("src/data/data.txt");
+        fileManager.loadData();
+        fileManager.displayData();
+        List<String> categories = fileManager.loadData();
+        for (String category : categories) {
+            addCategoryToUI(category);
+        }
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Menu::new);
 
