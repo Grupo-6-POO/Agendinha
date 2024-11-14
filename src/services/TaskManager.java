@@ -3,8 +3,8 @@ import Enums.Priority;
 import Enums.Status;
 import entities.Category;
 import entities.Task;
-
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +32,8 @@ public class TaskManager extends Task{
 
 
     public Task add(){
-        JFrame frame = new JFrame("Adicionar Task: ");
-        frame.setSize(400, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
 
-        String taskName = JOptionPane.showInputDialog(frame, "New category name:");
+        //setTitle(taskName);
         Scanner sc = new Scanner(System.in);
         System.out.println("Título da Tarefa: ");
         setTitle(sc.nextLine());
@@ -90,15 +85,14 @@ public class TaskManager extends Task{
         Scanner sc = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n" + "[ 1 ] - Status:\n" + "[ 2 ]");
     }
-    public List<Task> getAllTasks() {
-        return category.getTaskList();
-    }
-
-    public List<Task> getTaskList() { return taskList; }
+//    public List<Task> getAllTasks() {
+//        return category.getTaskList();
+//    }
+//    public List<Task> getTaskList() { return taskList; }
 //    public void addTask(Task task) {}
 
     public static void salvarTask(Task task) throws IOException {
-        FileOutputStream fos = new FileOutputStream("src/data/data.txt");
+        FileOutputStream fos = new FileOutputStream("src/data/obj.txt");
         ObjectOutputStream os = new ObjectOutputStream(fos);
 
         os.writeObject(task);
@@ -106,7 +100,7 @@ public class TaskManager extends Task{
         fos.close();
     }
     public static Task carregarTask() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("src/data/data.txt");
+        FileInputStream fis = new FileInputStream("src/data/obj.txt");
         ObjectInputStream is = new ObjectInputStream(fis);
         Task task = (Task) is.readObject();
         System.out.println(task);
@@ -118,5 +112,6 @@ public class TaskManager extends Task{
     public String toString() {
         return "Título: " + getTitle() + "\nDescrição: " + getDescription() + "\nPrioridade: " + getPriority() + "\nCategoria: " + getCategory() + "\nStatus: "+ getStatus();
     }
+
 
 }
