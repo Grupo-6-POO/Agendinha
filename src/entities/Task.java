@@ -57,4 +57,9 @@ public class Task extends Manager <Task> implements Serializable {
     public void update(Task obj) {
 
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

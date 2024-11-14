@@ -114,26 +114,6 @@ public class Menu {
 // Adiciona ação para abrir o TaskForm
         addTaskButton.addActionListener(e -> new TaskForm(this)); // Passar referência do Menu atual
 
-        // Botão "Add Update"
-        JButton updateTaskButton = new JButton("Update Task");
-        updateTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-        updateTaskButton.setBackground(new Color(25, 100, 150)); // Cor amarela
-        updateTaskButton.setForeground(Color.BLACK);
-        updateTaskButton.setFocusPainted(false);
-        updateTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        updateTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        updateTaskButton.addActionListener (e -> new UpdateTask(this));
-
-        // Botão "Delete Category"
-        JButton deleteTaskButton = new JButton("Delete Task");
-        deleteTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-        deleteTaskButton.setBackground(new Color(215, 90, 92));
-        deleteTaskButton.setForeground(Color.BLACK);
-        deleteTaskButton.setFocusPainted(false);
-        deleteTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        deleteTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //deleteTaskButton.addActionListener(e -> deleteTask());
-
 // Adicionando o botão ao sidebar
         sidebar.add(Box.createVerticalStrut(10));
         sidebar.add(addTaskButton);
@@ -151,9 +131,7 @@ public class Menu {
         sidebar.add(Box.createVerticalStrut(10));
         sidebar.add(addTaskButton);
         sidebar.add(Box.createVerticalGlue());
-        sidebar.add(updateTaskButton);
         sidebar.add(Box.createVerticalGlue());
-        sidebar.add(deleteTaskButton);
         sidebar.add(Box.createVerticalGlue());
 
         frame.add(sidebar, BorderLayout.WEST);
@@ -276,7 +254,7 @@ public class Menu {
             if (tasks != null) {
                 for (String task : tasks) {
                     JLabel taskLabel = new JLabel(String.valueOf(task));
-                    taskLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
+                    taskLabel.setFont(new Font("Roboto", Font.PLAIN, 28));
                     taskLabel.setForeground(Color.BLACK);
                     categoryPanel.add(taskLabel);
                 }
