@@ -2,7 +2,6 @@ package services;
 import java.io.*;
 import entities.Task;
 import entities.User;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,6 @@ public class FileManager {
     // Apaga somente o dado desejado
     public void removeData(String dataToRemove) {
         List<String> lines = new ArrayList<>();
-
         try (BufferedReader br = new BufferedReader(new FileReader("src/data/data.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -73,7 +71,6 @@ public class FileManager {
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
-
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/data/data.txt", false))) {
             for (String line : lines) {
                 bw.write(line);

@@ -1,8 +1,11 @@
 package UI;
 
+import entities.Calendar;
 import entities.Category;
+import entities.Task;
 import services.CategoryManager;
 import services.FileManager;
+import services.TaskManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +25,11 @@ public class Menu {
     private Map<String, JPanel> categoryPanels;
     private CategoryManager categoryManager;
     private Map<String, List<String>> categoryTasks = new HashMap<>();
+    private Task taskManager;
+    private List<String> categories;
+    private Calendar calendar = new Calendar();
+    private String[] prioridade = {"NULL", "LOW", "MEDIUM", "HIGH"};
+    private String[] statusTask = {"NULL", "PENDING", "IN_PROGRESS", "CONCLUDED"};
 
     public Map<String, List<String>> getCategoryTasks() {
         return categoryTasks;
@@ -35,6 +43,7 @@ public class Menu {
 
         categoryPanels = new HashMap<>();
         categoryManager = new CategoryManager();
+        taskManager = new TaskManager();
 
 
 
@@ -108,6 +117,26 @@ public class Menu {
 // Adiciona ação para abrir o TaskForm
         addTaskButton.addActionListener(e -> new TaskForm(this)); // Passar referência do Menu atual
 
+        // Botão "Add Update"
+        JButton updateTaskButton = new JButton("Update Task");
+        updateTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
+        updateTaskButton.setBackground(new Color(25, 100, 150)); // Cor amarela
+        updateTaskButton.setForeground(Color.BLACK);
+        updateTaskButton.setFocusPainted(false);
+        updateTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        updateTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        updateTaskButton.addActionListener (e -> new UpdateTask(this));
+
+        // Botão "Delete Category"
+        JButton deleteTaskButton = new JButton("Delete Task");
+        deleteTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
+        deleteTaskButton.setBackground(new Color(215, 90, 92));
+        deleteTaskButton.setForeground(Color.BLACK);
+        deleteTaskButton.setFocusPainted(false);
+        deleteTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        deleteTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //deleteTaskButton.addActionListener(e -> deleteTask());
+
 // Adicionando o botão ao sidebar
         sidebar.add(Box.createVerticalStrut(10));
         sidebar.add(addTaskButton);
@@ -124,6 +153,10 @@ public class Menu {
         sidebar.add(taskTitle);
         sidebar.add(Box.createVerticalStrut(10));
         sidebar.add(addTaskButton);
+        sidebar.add(Box.createVerticalGlue());
+        sidebar.add(updateTaskButton);
+        sidebar.add(Box.createVerticalGlue());
+        sidebar.add(deleteTaskButton);
         sidebar.add(Box.createVerticalGlue());
 
         frame.add(sidebar, BorderLayout.WEST);
@@ -159,6 +192,21 @@ public class Menu {
         categoryManager.add(newCategoryName);
         addCategoryToUI(newCategoryName);
 
+    }
+
+    private void deleteTask(String categoryName, String task) {
+        String taskName = JOptionPane.showInputDialog(frame, "Enter task name to delete:");
+        List<String> tasks = categoryTasks.get(categoryName);
+        if (tasks != null) {
+            boolean removed = tasks.remove(task); // Remove a tarefa, se encontrada
+            if (removed) {
+                System.out.println("Tarefa removida com sucesso da categoria " + categoryName);
+            } else {
+                System.out.println("Tarefa não encontrada na categoria " + categoryName);
+            }
+        } else {
+            System.out.println("Categoria " + categoryName + " não existe.");
+        }
     }
 
     private void deleteCategory() {
@@ -287,6 +335,18 @@ public class Menu {
             categoryTasks.put(category, new ArrayList<>()); // Inicialmente, sem tarefas
             addCategoryToUI(category);
         }
+    }
+    public void carregarTasks() {
+//        FileManager fileManager = new FileManager("src/data/obj.txt");
+//
+//        for (Task task : tasks){
+//            fileManager.carregarTask();
+//        }
+//        List<Task> tasks = taskManager.carregarTask();
+//        for (Task task : tasks) {
+//            categoryTasks.put(category, new ArrayList<>()); // Inicialmente, sem tarefas
+//            addCategoryToUI(category);
+//        }
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Menu::new);

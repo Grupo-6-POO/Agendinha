@@ -3,39 +3,36 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
-public class Calendar  {
+public class Calendar {
     private JFrame frame;
-
 
     public Calendar() {
     }
 
-    public static void verifyInicialDeadLine(){
-        getCurrentDay();
 
-    }
-    public LocalDate verifyDeadLine(){
-        String deadLine = JOptionPane.showInputDialog(frame, "Digite o prazo final (dd/MM/yyyy): ");
+    public LocalDate verifyDeadLine() {
+        LocalDate deadLineDate = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Define o formato esperado
+        LocalDate today = LocalDate.now(); // Obtém a data de hoje
 
-        try {
-            // Converte a string para LocalDate usando o formato especificado
-            LocalDate date = LocalDate.parse(deadLine, formatter);
-            System.out.println(date);
-            return date;
-        } catch (DateTimeParseException e) {
-            System.out.println("Data inválida! Por favor, use o formato dd/MM/yyyy.");
-            return null;
+        while (deadLineDate == null) {
+            String deadLine = JOptionPane.showInputDialog(null, "Digite o prazo final (dd/MM/yyyy): ");
+
+            try {
+                deadLineDate = LocalDate.parse(deadLine, formatter);
+                if (deadLineDate.isBefore(today)) {
+                    JOptionPane.showMessageDialog(null, "Data inválida. Tente novamente.");
+                    deadLineDate = null; // Redefine para null para repetir o loop
+                }
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(null, "Data inválida. Use o formato dd/MM/yyyy.");
+            }
         }
+        return deadLineDate;
 
     }
 
-    public static void getCurrentDay() {
-        LocalDate today = LocalDate.now(); //Retorna a data atual
-        System.out.println(today );
-    }
 
 
 

@@ -100,7 +100,6 @@ public class CategoryManager extends Category {
     public static void salvarCategory(Category category) throws IOException {
         FileOutputStream fos = new FileOutputStream("src/data/data.txt");
         ObjectOutputStream os = new ObjectOutputStream(fos);
-
         os.writeObject(category);
         os.close();
         fos.close();

@@ -23,10 +23,12 @@ public class TaskManager extends Task{
         super(title, priority, status, deadLine);
     }
 
+
     // Lista de tarefas
     private List<Task> tasks = new ArrayList<>();
 
     public Task add(Task task) {
+        System.out.println("Método add chamado");
         if (task == null) {
             throw new ManagerException("A tarefa não pode ser nula.");
         }
@@ -42,17 +44,25 @@ public class TaskManager extends Task{
         if (task.getStatus() == null || task.getStatus().equals("NULL")) {
             throw new ManagerException("O status da tarefa é obrigatório.");
         }
-        // Adiciona a tarefa na lista após validação
-        tasks.add(task);
-        System.out.println("Tarefa adicionada com sucesso: " + task.getTitle());
 
-        try {
-            salvarTask(task);
-            carregarTask();
-            return task;
-        } catch (IOException | ClassNotFoundException e) {
-           throw new RuntimeException(e);}
+        if (task.getTitle() != null && !task.getTitle().trim().isEmpty() && task.getDeadLine() != null) {
+            // Adiciona a tarefa na lista após validação
+            tasks.add(task);
+            System.out.println("Tarefa adicionada com sucesso: " + task.getTitle());
+
+            System.out.println("Chamando salvarTask...");
+
+            try {
+                salvarTask(task);
+                carregarTask();
+                System.out.println("Tarefa salva.");
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
+            return task;
+        }
+        return task;
+    }
 
     public List<Task> getTasks() throws IOException, ClassNotFoundException {
         carregarTask();
@@ -86,6 +96,7 @@ public class TaskManager extends Task{
     public static Task carregarTask() throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream("src/data/obj.txt");
         ObjectInputStream is = new ObjectInputStream(fis);
+
         Task task = (Task) is.readObject();
         System.out.println(task);
         is.close();

@@ -16,11 +16,15 @@ import java.util.List;
 
 public class TaskForm {
     private Menu menu; // Referência para o Menu
-    private Manager<Task> taskManager = new TaskManager(); // Instância de TaskManager
+    private Task taskManager = new TaskManager(); // Instância de TaskManager
     private Calendar calendar = new Calendar();
+    private List<String> categories;
+
 
     public TaskForm(Menu menu) {
-        this.menu = menu; // Guardar referência do menu
+        this.menu = menu;
+        this.categories = menu.getCategoryTasks().keySet().stream().toList();
+
         JFrame frame = new JFrame("Add Task");
         frame.setSize(500, 450);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -120,18 +124,18 @@ public class TaskForm {
                 if (titulo != null && !titulo.trim().isEmpty() && prazoField[0] != null) {
                     Task task = new Task(titulo, prioridadeSelecionada, statusSelecionado, prazoField[0]); // Exemplo de criação da Task
                     try {
-                        adicionarTask.addActionListener(event -> taskManager.add(task));
+                        taskManager.add(task);
                         JOptionPane.showMessageDialog(frame, "Task added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        new Menu();// Adiciona a Task ao Manager
-
+                        // Adiciona a Task ao Manager
                         frame.dispose();
-                        new Menu();
+
                     } catch (ManagerException ex) {
                         JOptionPane.showMessageDialog(frame, ex.getMessage(), "Invalid fields", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame, "Por favor, preencha todos os campos e defina o prazo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+                menu.addTaskToCategory(categoria, titulo);
             }
         });
 
