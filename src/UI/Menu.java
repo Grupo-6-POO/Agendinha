@@ -90,6 +90,26 @@ public class Menu {
         updateCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         updateCategoryButton.addActionListener(e -> updateCategory());
 
+        JLabel sidebarTask = new JLabel("Tasks");
+        sidebarTitle.setForeground(Color.WHITE);
+        sidebarTitle.setFont(new Font("Roboto", Font.BOLD, 18));
+        sidebarTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton addTaskButton = new JButton("Add Task");
+        addTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
+        addTaskButton.setBackground(new Color(34, 139, 34));
+        addTaskButton.setForeground(Color.WHITE);
+        addTaskButton.setFocusPainted(false);
+        addTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        addTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+// Adiciona ação para abrir o TaskForm
+        addTaskButton.addActionListener(e -> new TaskForm(this)); // Passar referência do Menu atual
+
+// Adicionando o botão ao sidebar
+        sidebar.add(Box.createVerticalStrut(10));
+        sidebar.add(addTaskButton);
+
         sidebar.add(sidebarTitle);
         sidebar.add(Box.createVerticalStrut(20));
         sidebar.add(addCategoryButton);
@@ -182,6 +202,7 @@ public class Menu {
             }
         }
     }
+
 
     private JButton findCategoryButton(String categoryName) {
         for (Component component : topBar.getComponents()) {

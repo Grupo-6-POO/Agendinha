@@ -1,5 +1,6 @@
 package UI;
 
+import Enums.Priority;
 import entities.Calendar;
 import entities.Task;
 import exceptions.ManagerException;
@@ -12,155 +13,106 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.List;
 
 public class TaskForm {
-    public static void main(String[] args) {
+    private Menu menu; // Referência para o Menu
+    private Manager<Task> taskManager = new TaskManager(); // Instância de TaskManager
+    private Calendar calendar = new Calendar();
 
-        Manager<Task> taskManager = new TaskManager(); //Instancia de objeto Polimórfica
-        Calendar calendar = new Calendar();
-        Task task = new Task();
-
+    public TaskForm(Menu menu) {
+        this.menu = menu; // Guardar referência do menu
         JFrame frame = new JFrame("Add Task");
-        frame.setSize(500, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 450);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 
-        // Painel principal com BorderLayout
+        // Painel principal
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Painel do formulário centralizado com GridBagLayout
+        // Painel de formulário
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "ADICIONAR TASK:", TitledBorder.CENTER, TitledBorder.BELOW_TOP, new Font("Roboto", Font.BOLD, 26), Color.DARK_GRAY));
+        formPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "ADICIONAR TASK:", TitledBorder.CENTER, TitledBorder.BELOW_TOP, new Font("Roboto", Font.BOLD, 20), Color.DARK_GRAY));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);  // Espaçamento entre os elementos
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        //Campo Titulo
+        // Campo Nome da Task
         JLabel title = new JLabel("Nome Task:");
-        title.setFont(new Font("Roboto", Font.PLAIN, 14));
-        title.setForeground(Color.DARK_GRAY);
-
         JTextField taskField = new JTextField(15);
-        taskField.setFont(new Font("Roboto", Font.PLAIN, 14));
-        taskField.setBorder(BorderFactory.createCompoundBorder(taskField.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         gbc.gridx = 0;
         gbc.gridy = 0;
         formPanel.add(title, gbc);
-
         gbc.gridx = 1;
         formPanel.add(taskField, gbc);
 
-
-        //Campo Prioridade
-        JLabel priority = new JLabel("Prioridade:");
-        priority.setFont(new Font("Roboto", Font.PLAIN, 14));
-        priority.setForeground(Color.DARK_GRAY);
-
-        String[] prioridade = { "NULL","LOW", "MEDIUM", "HIGH"};
-        JComboBox<String> comboBox = new JComboBox<>(prioridade);
-
+        // Campo Categoria
+        JLabel categoryLabel = new JLabel("Categoria:");
+        List<String> categories = menu.getCategoryTasks().keySet().stream().toList();
+        JComboBox<String> categoryComboBox = new JComboBox<>(categories.toArray(new String[0]));
         gbc.gridx = 0;
         gbc.gridy = 1;
-        formPanel.add(priority, gbc);
-
+        formPanel.add(categoryLabel, gbc);
         gbc.gridx = 1;
-        formPanel.add(comboBox, gbc);
+        formPanel.add(categoryComboBox, gbc);
 
-
-        //Campo Status
-        JLabel status = new JLabel("Status:");
-        status.setFont(new Font("Roboto", Font.PLAIN, 14));
-        status.setForeground(Color.DARK_GRAY);
-
-        String[] statusTask = { "NULL","PENDING", "IN_ PROGRESS", "CONCLUDED"};
-        JComboBox<String> comboBox2 = new JComboBox<>(statusTask);
-
+        // Campo Prioridade
+        JLabel priority = new JLabel("Prioridade:");
+        String[] prioridade = {"NULL", "LOW", "MEDIUM", "HIGH"};
+        JComboBox<String> priorityBox = new JComboBox<>(prioridade);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        formPanel.add(status, gbc);
-
+        formPanel.add(priority, gbc);
         gbc.gridx = 1;
-        formPanel.add(comboBox2, gbc);
+        formPanel.add(priorityBox, gbc);
 
-        //Campo Prazo:
+        // Botão Selecionar Prazo
         JLabel prazo = new JLabel("Definir Prazo:");
-        prazo.setFont(new Font("Roboto", Font.PLAIN, 14));
-        prazo.setForeground(Color.DARK_GRAY);
-
-        JButton selectPrazo = new JButton("Selecione o Prazo:");
-        selectPrazo.setFont(new Font("Roboto", Font.BOLD, 14));
-        selectPrazo.setBackground(new Color(0, 20, 100));
-        selectPrazo.setForeground(Color.WHITE);
-        selectPrazo.setFocusPainted(false);
-        selectPrazo.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
+        JButton selectPrazo = new JButton("Selecione o Prazo");
         gbc.gridx = 0;
         gbc.gridy = 3;
         formPanel.add(prazo, gbc);
-
         gbc.gridx = 1;
-        gbc.gridwidth = 0;
         formPanel.add(selectPrazo, gbc);
 
-
-        // Botão de login estilizado
+        // Botão Adicionar Task
         JButton adicionarTask = new JButton("Adicionar Task");
-        adicionarTask.setFont(new Font("Roboto", Font.BOLD, 14));
         adicionarTask.setBackground(new Color(0, 100, 90));
         adicionarTask.setForeground(Color.WHITE);
-        adicionarTask.setFocusPainted(false);
-        adicionarTask.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(adicionarTask, gbc);
 
-
-
-        // Adiciona o painel principal ao frame
         mainPanel.add(formPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
 
-        // Ação de Add
-        adicionarTask.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String titulo = taskField.getText();
-                String selectedOption = (String) comboBox.getSelectedItem();
-                String selectedOption2 = (String) comboBox2.getSelectedItem();
+        // Ação ao clicar em "Adicionar Task"
+        adicionarTask.addActionListener(e -> {
+            String titulo = taskField.getText();
+            String categoria = (String) categoryComboBox.getSelectedItem();
 
-                // Ação Selecionar prazo:
-                selectPrazo.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        LocalDate prazoField = calendar.verifyDeadLine();
-                    }
-                });
-                if (titulo != null && !titulo.trim().isEmpty()) {
-                    try {
-                        adicionarTask.addActionListener(event -> taskManager.add(task));// Método de verificação do usuário
-                        JOptionPane.showMessageDialog(frame, "Task added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        new Menu();
+            if (titulo != null && !titulo.trim().isEmpty()) {
+                Task task = new Task();
+                task.setTitle(titulo);
+                task.setPriority(Priority.valueOf(priorityBox.getSelectedItem().toString()));
 
-                        frame.dispose();
-                        new Menu();
-                    } catch (ManagerException ex) {
-                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Invalid fields", JOptionPane.ERROR_MESSAGE);
-                    }
+                try {
+                    taskManager.add(task);
+                    menu.addTaskToCategory(categoria, titulo); // Adiciona tarefa à categoria
+                    JOptionPane.showMessageDialog(frame, "Task adicionada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    frame.dispose();
+                } catch (ManagerException ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-                System.out.println("Opção selecionada: " + selectedOption);
-                System.out.println("Opção selecionada: " + selectedOption2);
+            } else {
+                JOptionPane.showMessageDialog(frame, "Título é obrigatório!", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         });
 
         frame.setVisible(true);
     }
-
-
 }
