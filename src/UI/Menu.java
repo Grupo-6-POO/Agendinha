@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class Menu {
     private CardLayout cardLayout;
     private Map<String, JPanel> categoryPanels;
     private CategoryManager categoryManager;
+    private Map<String, List<String>> categoryTasks = new HashMap<>();
 
     public Menu() {
         frame = new JFrame("Agendinha");
@@ -29,7 +31,7 @@ public class Menu {
 
         categoryPanels = new HashMap<>();
         categoryManager = new CategoryManager();
-        
+
 
 
         frame.setLayout(new BorderLayout());
@@ -186,6 +188,28 @@ public class Menu {
         return null;
     }
 
+    public void displayTasksForCategory(String categoryName) {
+        JPanel categoryPanel = categoryPanels.get(categoryName);
+
+        if (categoryPanel != null) {
+            categoryPanel.removeAll(); // Limpar tarefas anteriores
+
+            // Obter tarefas da categoria selecionada
+            List<String> tasks = categoryTasks.get(categoryName);
+
+            if (tasks != null) {
+                for (String task : tasks) {
+                    JLabel taskLabel = new JLabel(task);
+                    taskLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
+                    taskLabel.setForeground(Color.BLACK);
+                    categoryPanel.add(taskLabel);
+                }
+            }
+
+            categoryPanel.revalidate();
+            categoryPanel.repaint();
+        }
+    }
     public void addCategoryToUI(String categoryName) {
         JButton categoryButton = new JButton(categoryName);
         categoryButton.setFont(new Font("Roboto", Font.PLAIN, 14));
@@ -194,7 +218,11 @@ public class Menu {
         categoryButton.setFocusPainted(false);
         categoryButton.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
 
-        categoryButton.addActionListener(e -> cardLayout.show(taskViewPanel, categoryName));
+        categoryButton.addActionListener(e -> {
+            cardLayout.show(taskViewPanel, categoryName);
+            displayTasksForCategory(categoryName); // Mostrar tarefas da categoria selecionada
+        });
+
         topBar.add(categoryButton);
         topBar.revalidate();
         topBar.repaint();
@@ -202,11 +230,23 @@ public class Menu {
         JPanel categoryPanel = new JPanel();
         categoryPanel.setBackground(Color.LIGHT_GRAY);
         categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
-        categoryPanel.add(new JLabel("Tasks for: " + categoryName));
+
+        addTaskToCategory("Trabalho", "Tarefa A");
+        addTaskToCategory(categoryName, "Tarefa B");
+        addTaskToCategory("Estudos", "Tarefa X");
+
+        categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         categoryPanels.put(categoryName, categoryPanel);
         taskViewPanel.add(categoryPanel, categoryName);
+    }
+
+    public void addTaskToCategory(String categoryName, String task) {
+        List<String> tasks = categoryTasks.get(categoryName);
+        if (tasks != null) {
+            tasks.add(task);
+        }
     }
 
     public void carregarCategorias() {
@@ -215,6 +255,7 @@ public class Menu {
         fileManager.displayData();
         List<String> categories = fileManager.loadData();
         for (String category : categories) {
+            categoryTasks.put(category, new ArrayList<>()); // Inicialmente, sem tarefas
             addCategoryToUI(category);
         }
     }
