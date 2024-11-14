@@ -11,9 +11,7 @@ public class Category extends Manager <Category> implements Serializable {
     private String name;
     private List<Task> taskList = new ArrayList<>();
 
-    public Category() {
-
-    }
+    public Category() {}
 
     public Category(String name) {
         this.name = name;
@@ -39,17 +37,14 @@ public class Category extends Manager <Category> implements Serializable {
 
     @Override
     public void delete(Category obj) {
-
     }
 
     @Override
     public void read(Category obj) {
-
     }
 
     @Override
     public void update(Category obj) {
-
     }
 }
 

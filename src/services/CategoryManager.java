@@ -57,15 +57,6 @@ public class CategoryManager extends Category {
 
     @Override
     public void delete(Category obj) {
-
-//        // Verifica se a categoria existe e a remove
-//        for (Category category : categories) {
-//            if (category.getName().equals(categoryName)) {
-//                categories.remove(category);
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     @Override

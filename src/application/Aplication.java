@@ -18,8 +18,6 @@ public class Aplication implements Serializable{
         Task task = new TaskManager("Nada", "So um teste", Priority.LOW, new Category("nada"));
         salvarTask(task);
         carregarTask();
-        System.out.println(task);
-
 
 
 

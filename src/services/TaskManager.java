@@ -6,12 +6,12 @@ import entities.Task;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TaskManager extends Task{
     Category category;
+    FileManager fileManager;
 
     public TaskManager() {
         super();
@@ -23,11 +23,14 @@ public class TaskManager extends Task{
     private List<Task> taskList ;
 
 
-    public Category chooseCategory(){
+    public <dataList> String chooseCategory(){
         Category categorias;
-        categorias = new CategoryManager();
-        //getAllCategories();
-        return null;
+        fileManager = new FileManager("src/data/data.txt");
+        fileManager.loadData();
+        for (String category : dataList){
+            System.out.println(category);
+        }
+        return dataList;
     }
 
 
@@ -53,7 +56,7 @@ public class TaskManager extends Task{
             else {
                 System.out.println("Resposta Inválida");
             }}
-        category = chooseCategory();
+       // category = chooseCategory();
         Task task;
         task = new Task(getTitle(), getDescription(), getPriority(), category);
         System.out.println("Sua Tarefa foi criada com sucesso e está com o status " + getStatus());

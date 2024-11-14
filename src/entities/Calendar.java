@@ -7,12 +7,9 @@ import java.util.Date;
 
 public class Calendar  {
     private JFrame frame;
-    private Date deadLine;
-    private Date initialDeadLine;
 
-    public Calendar(Date deadLine, Date initialDeadLine) {
-        this.deadLine = deadLine;
-        this.initialDeadLine = initialDeadLine;
+
+    public Calendar() {
     }
 
     public static void verifyInicialDeadLine(){
@@ -40,13 +37,6 @@ public class Calendar  {
         System.out.println(today );
     }
 
-
-    public Date getInitialDeadLine() {
-        return initialDeadLine;
-    }
-    public Date getDeadLine() {
-        return deadLine;
-    }
 
 
 }
