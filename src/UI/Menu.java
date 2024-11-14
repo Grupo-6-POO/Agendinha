@@ -23,6 +23,10 @@ public class Menu {
     private CategoryManager categoryManager;
     private Map<String, List<String>> categoryTasks = new HashMap<>();
 
+    public Map<String, List<String>> getCategoryTasks() {
+        return categoryTasks;
+    }
+
     public Menu() {
         frame = new JFrame("Agendinha");
         frame.setSize(900, 600);
@@ -230,10 +234,6 @@ public class Menu {
         JPanel categoryPanel = new JPanel();
         categoryPanel.setBackground(Color.LIGHT_GRAY);
         categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
-
-        addTaskToCategory("Trabalho", "Tarefa A");
-        addTaskToCategory(categoryName, "Tarefa B");
-        addTaskToCategory("Estudos", "Tarefa X");
 
         categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         categoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));

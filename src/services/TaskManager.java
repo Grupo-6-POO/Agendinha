@@ -27,12 +27,9 @@ public class TaskManager extends Task{
         Category categorias;
         fileManager = new FileManager("src/data/data.txt");
         fileManager.loadData();
-        for (String category : dataList){
-            System.out.println(category);
-        }
-        return dataList;
-    }
 
+        return "";
+    }
 
     public Task add(){
 
