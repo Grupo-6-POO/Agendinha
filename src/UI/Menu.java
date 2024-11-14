@@ -131,7 +131,8 @@ public class Menu {
         String categoryName = JOptionPane.showInputDialog(frame, "Enter category name to delete:");
 
         // Verifica se a categoria existe e é excluída com sucesso
-        if (categoryName != null && categoryManager.deleteCategory(categoryName)) {
+        if (categoryName != null ) {
+            categoryManager.delete(categoryName);
             JButton buttonToRemove = findCategoryButton(categoryName);
 
             if (buttonToRemove != null) {

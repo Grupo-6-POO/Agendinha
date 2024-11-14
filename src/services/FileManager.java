@@ -58,7 +58,32 @@ public class FileManager {
             System.out.println(line);
         }
     }
-    public void lerArquivoScanner(){}
+
+    // Apaga somente o dado desejado
+    public void removeData(String dataToRemove) {
+        List<String> lines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data/data.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.equals(dataToRemove)) { // Ignora a linha que queremos remover
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/data/data.txt", false))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao sobrescrever o arquivo: " + e.getMessage());
+        }
+    }
+
 
 
 }

@@ -93,7 +93,7 @@ public class TaskForm {
                 String descricao = descriptionField.getText();
 
                 try {
-                    addButton.addActionListener(e -> taskManager.add());// Método de verificação do usuário
+                    //addButton.addActionListener(e -> taskManager.add());// Método de verificação do usuário
                     JOptionPane.showMessageDialog(frame, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     frame.dispose();

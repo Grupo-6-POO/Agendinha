@@ -28,15 +28,16 @@ public class CategoryManager extends Category {
         super();
     }
 
-    public boolean deleteCategory(String categoryName) {
+    public void delete(String categoryName) {
         // Verifica se a categoria existe e a remove
         for (Category category : categories) {
             if (category.getName().equals(categoryName)) {
                 categories.remove(category);
-                return true;
             }
         }
-        return false;
+        //Apaga do arquivo
+        fileManager = new FileManager("src/data/data.txt");
+        fileManager.removeData(categoryName);
     }
 
 
