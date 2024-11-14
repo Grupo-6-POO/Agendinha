@@ -90,19 +90,21 @@ public class Menu {
         updateCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         updateCategoryButton.addActionListener(e -> updateCategory());
 
-        JLabel sidebarTask = new JLabel("Tasks");
-        sidebarTitle.setForeground(Color.WHITE);
-        sidebarTitle.setFont(new Font("Roboto", Font.BOLD, 18));
-        sidebarTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Seção de Tasks
+        JLabel taskTitle = new JLabel("Task");
+        taskTitle.setForeground(Color.WHITE);
+        taskTitle.setFont(new Font("Roboto", Font.BOLD, 18));
+        taskTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        taskTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0)); // Espaçamento acima do título
 
+        // Botão "Add Task"
         JButton addTaskButton = new JButton("Add Task");
         addTaskButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-        addTaskButton.setBackground(new Color(34, 139, 34));
-        addTaskButton.setForeground(Color.WHITE);
+        addTaskButton.setBackground(new Color(255, 215, 0)); // Cor amarela
+        addTaskButton.setForeground(Color.BLACK);
         addTaskButton.setFocusPainted(false);
         addTaskButton.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         addTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 // Adiciona ação para abrir o TaskForm
         addTaskButton.addActionListener(e -> new TaskForm(this)); // Passar referência do Menu atual
 
@@ -118,7 +120,13 @@ public class Menu {
         sidebar.add(Box.createVerticalStrut(10));
         sidebar.add(updateCategoryButton);
         sidebar.add(Box.createVerticalGlue());
+        sidebar.add(Box.createVerticalStrut(20)); // Espaçamento acima da seção de Tasks
+        sidebar.add(taskTitle);
+        sidebar.add(Box.createVerticalStrut(10));
+        sidebar.add(addTaskButton);
+        sidebar.add(Box.createVerticalGlue());
 
+        frame.add(sidebar, BorderLayout.WEST);
         frame.add(sidebar, BorderLayout.WEST);
     }
 
