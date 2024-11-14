@@ -1,7 +1,6 @@
 package UI;
 
 import entities.Calendar;
-import entities.Category;
 import entities.Task;
 import services.CategoryManager;
 import services.FileManager;
@@ -9,8 +8,7 @@ import services.TaskManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +42,6 @@ public class Menu {
         categoryPanels = new HashMap<>();
         categoryManager = new CategoryManager();
         taskManager = new TaskManager();
-
 
 
         frame.setLayout(new BorderLayout());
@@ -271,16 +268,14 @@ public class Menu {
 
     public void displayTasksForCategory(String categoryName) {
         JPanel categoryPanel = categoryPanels.get(categoryName);
-
         if (categoryPanel != null) {
-            categoryPanel.removeAll(); // Limpar tarefas anteriores
+            categoryPanel.removeAll();
 
-            // Obter tarefas da categoria selecionada
             List<String> tasks = categoryTasks.get(categoryName);
 
             if (tasks != null) {
                 for (String task : tasks) {
-                    JLabel taskLabel = new JLabel(task);
+                    JLabel taskLabel = new JLabel(String.valueOf(task));
                     taskLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
                     taskLabel.setForeground(Color.BLACK);
                     categoryPanel.add(taskLabel);
@@ -319,10 +314,10 @@ public class Menu {
         taskViewPanel.add(categoryPanel, categoryName);
     }
 
-    public void addTaskToCategory(String categoryName, String task) {
+    public void addTaskToCategory(String categoryName, Task task) {
         List<String> tasks = categoryTasks.get(categoryName);
         if (tasks != null) {
-            tasks.add(task);
+            tasks.add(String.valueOf(task));
         }
     }
 
@@ -332,22 +327,28 @@ public class Menu {
         fileManager.displayData();
         List<String> categories = fileManager.loadData();
         for (String category : categories) {
-            categoryTasks.put(category, new ArrayList<>()); // Inicialmente, sem tarefas
+            categoryTasks.put(category, new ArrayList<>());
             addCategoryToUI(category);
+            carregarTarefasPorCategoria();
+        }
+
+
+    }
+
+    private void carregarTarefasPorCategoria() {
+        try {
+            Task task = TaskManager.carregarTask();
+            if (task != null) {
+                String category = task.getCategory();
+                if (categoryTasks.containsKey(category)) {
+                    categoryTasks.get(category).add(String.valueOf(task)); // Adiciona a task à categoria correspondente
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
-    public void carregarTasks() {
-//        FileManager fileManager = new FileManager("src/data/obj.txt");
-//
-//        for (Task task : tasks){
-//            fileManager.carregarTask();
-//        }
-//        List<Task> tasks = taskManager.carregarTask();
-//        for (Task task : tasks) {
-//            categoryTasks.put(category, new ArrayList<>()); // Inicialmente, sem tarefas
-//            addCategoryToUI(category);
-//        }
-    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Menu::new);
 

@@ -2,8 +2,6 @@ package entities;
 import services.Manager;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Task extends Manager <Task> implements Serializable {
     private String title;
@@ -11,18 +9,12 @@ public class Task extends Manager <Task> implements Serializable {
     private String priority;
     private LocalDate initialDeadLine;
     private LocalDate deadLine;
-    Category category;
+    private String category;
 
     public Task(){}
 
-    public Task( String title, String priority, String status, LocalDate deadLine){
-        this.title = title;
-        this.priority = priority;
-        this.status = status;
-        this.deadLine = deadLine;
-    }
 
-    public Task( String title, String priority, String status, LocalDate deadLine, Category category){
+    public Task( String title, String priority, String status, LocalDate deadLine, String category){
         this.title = title;
         this.priority = priority;
         this.status = status;
@@ -43,8 +35,8 @@ public class Task extends Manager <Task> implements Serializable {
     public LocalDate getDeadLine() { return deadLine; }
     public void setDeadLine(LocalDate deadLine) { this.deadLine = deadLine;
     }
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) {
+    public String getCategory() { return category; }
+    public void setCategory(String category) {
         this.category = category;
     }
 

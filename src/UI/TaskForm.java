@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TaskForm {
@@ -96,6 +97,7 @@ public class TaskForm {
         gbc.gridx = 1;
         formPanel.add(selectPrazo, gbc);
 
+
         final LocalDate[] prazoField = {null};
         selectPrazo.addActionListener(e -> prazoField[0] = calendar.verifyDeadLine());
 
@@ -122,10 +124,12 @@ public class TaskForm {
 
                 // Validação básica
                 if (titulo != null && !titulo.trim().isEmpty() && prazoField[0] != null) {
-                    Task task = new Task(titulo, prioridadeSelecionada, statusSelecionado, prazoField[0]); // Exemplo de criação da Task
+                    Task task = new Task(titulo, prioridadeSelecionada, statusSelecionado, prazoField[0], categoria); // Exemplo de criação da Task
                     try {
                         taskManager.add(task);
                         JOptionPane.showMessageDialog(frame, "Task added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        menu.addTaskToCategory(categoria, task);
+
                         // Adiciona a Task ao Manager
                         frame.dispose();
 
@@ -135,7 +139,6 @@ public class TaskForm {
                 } else {
                     JOptionPane.showMessageDialog(frame, "Por favor, preencha todos os campos e defina o prazo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-                menu.addTaskToCategory(categoria, titulo);
             }
         });
 

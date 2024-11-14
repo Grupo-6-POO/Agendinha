@@ -17,7 +17,7 @@ import static services.TaskManager.salvarTask;
 public class Aplication implements Serializable{
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         LocalDate dia = LocalDate.of(2099, Month.JANUARY, 25);
-        Task task = new TaskManager("Nada", "So um teste", "LOW", dia);
+        Task task = new TaskManager("Nada", "So um teste", "LOW", dia, "uhuuu");
         salvarTask(task);
         carregarTask();
 

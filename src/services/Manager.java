@@ -1,10 +1,11 @@
 package services;
-import entities.Category;
-import entities.Task;
 
 public abstract class Manager<M> implements Services <M> {
 
-    public abstract M add(M obj);
+    public M add(M obj){
+        System.out.println("Cada filho terá sua implementação");
+        return obj;
+    }
     public abstract void delete(M obj);
     public abstract void update(M obj);
 

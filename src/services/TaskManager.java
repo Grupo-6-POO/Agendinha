@@ -4,9 +4,9 @@ import entities.Category;
 import entities.Task;
 import exceptions.ManagerException;
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,14 +15,15 @@ public class TaskManager extends Task{
     Category category;
     FileManager fileManager;
     JFrame frame;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     public TaskManager() {
         super();
     }
-    public TaskManager(String title, String priority, String status, LocalDate deadLine) {
-        super(title, priority, status, deadLine);
+    public TaskManager(String title, String priority, String status, LocalDate deadLine, String category) {
+        super(title, priority, status, deadLine, category);
     }
-
 
     // Lista de tarefas
     private List<Task> tasks = new ArrayList<>();
@@ -53,10 +54,11 @@ public class TaskManager extends Task{
             System.out.println("Chamando salvarTask...");
 
             try {
-                salvarTask(task);
-                carregarTask();
+                salvarTasksCSV(tasks, "src/data/objetos.csv");
+                //salvarTask(task);
+                carregarTasksCSV("src/data/objetos.csv");
                 System.out.println("Tarefa salva.");
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             return task;
@@ -80,9 +82,46 @@ public class TaskManager extends Task{
         System.out.println("O que você deseja atualizar?\n" + "[ 1 ] - Status:\n" + "[ 2 ]");
     }
 
-    public List<Task> getAllTasks() {
-        return category.getTaskList();
+
+    public static void salvarTasksCSV(List<Task> tasks, String filePath) throws IOException {
+        FileWriter writer = new FileWriter(filePath);
+        writer.append("Title,Priority,Status,DeadLine,Category\n");
+
+        for (Task task : tasks) {
+            writer.append(task.getTitle()).append(",")
+                    .append(task.getPriority()).append(",")
+                    .append(task.getStatus()).append(",")
+                    .append(task.getDeadLine().format(formatter)).append(",")
+                    .append(task.getCategory()).append("\n");
+        }
+
+        writer.flush();
+        writer.close();
     }
+
+    public static List<Task> carregarTasksCSV(String filePath) throws IOException {
+        List<Task> tasks = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+
+        // Ignora o cabeçalho
+        reader.readLine();
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] data = line.split(","); // Divide cada linha com base na vírgula
+
+            // Converte a String para LocalDate
+            LocalDate deadLine = LocalDate.parse(data[3], formatter);
+
+            // Cria uma nova Task com os dados lidos
+            Task task = new Task(data[0], data[1], data[2], deadLine, data[4]);
+            tasks.add(task); // Adiciona a task à lista
+        }
+
+        reader.close();
+        return tasks;
+    }
+
 
 
     public static void salvarTask(Task task) throws IOException {
@@ -105,7 +144,7 @@ public class TaskManager extends Task{
     }
     @Override
     public String toString() {
-        return "Título: " + getTitle() + "\nPrioridade: " + getPriority() + "\nCategoria: " + getCategory() + "\nStatus: "+ getStatus();
+        return "Título: " + getTitle() + "\nPrioridade: " + getPriority() + "\nStatus: "+ getStatus() + "\nPrazo Final: " + getDeadLine();
     }
 
 
