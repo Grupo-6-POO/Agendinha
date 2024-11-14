@@ -1,50 +1,40 @@
 package entities;
-import Enums.Priority;
-import Enums.Status;
 import services.Manager;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Task extends Manager <Task> implements Serializable {
     private String title;
-    private String description;
-    private Status status = Status.PENDING;
-    private Priority priority;
+    private String status;
+    private String priority;
     private Calendar initialDeadLine;
-    private Calendar deadLine;
-    private boolean isRepeating = false;
-    private boolean isConcluded = false;
+    private LocalDate deadLine;
     Category category;
 
     public Task(){}
 
-    public Task( String title, String description, Priority priority, Category category){
+    public Task( String title, String priority, String status, LocalDate deadLine){
         this.title = title;
-        this.description = description;
         this.priority = priority;
-        this.category = category;
+        this.status = status;
+        this.deadLine = deadLine;
     }
 
     public String getTitle() { return title;}
     public void setTitle(String title) { this.title = title; }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public String getPriority() { return priority; }
+    public void setPriority(String priority) { this.priority = priority; }
 
-    public Priority getPriority() { return priority; }
-    public void setPriority(Priority priority) { this.priority = priority; }
-
-    public boolean getRepeating() { return isRepeating; }
-    public void setRepeating(boolean repeating) { isRepeating = repeating; }
-
-    public boolean isConcluded() { return isConcluded; }
-    public void setConcluded(boolean concluded) { isConcluded = concluded; }
-
+    public LocalDate getDeadLine() { return deadLine; }
+    public void setDeadLine(LocalDate deadLine) { this.deadLine = deadLine;
+    }
     public Category getCategory() { return category; }
 
     @Override

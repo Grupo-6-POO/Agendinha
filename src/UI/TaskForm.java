@@ -1,12 +1,11 @@
 package UI;
 
-import Enums.Priority;
 import entities.Calendar;
+import entities.Category;
 import entities.Task;
 import exceptions.ManagerException;
 import services.Manager;
 import services.TaskManager;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -59,6 +58,7 @@ public class TaskForm {
         gbc.gridx = 1;
         formPanel.add(categoryComboBox, gbc);
 
+
         // Campo Prioridade
         JLabel priority = new JLabel("Prioridade:");
         String[] prioridade = {"NULL", "LOW", "MEDIUM", "HIGH"};
@@ -69,47 +69,69 @@ public class TaskForm {
         gbc.gridx = 1;
         formPanel.add(priorityBox, gbc);
 
+        //Campo Status
+        JLabel status = new JLabel("Status:");
+        status.setFont(new Font("Roboto", Font.PLAIN, 14));
+        status.setForeground(Color.DARK_GRAY);
+        String[] statusTask = { "NULL","PENDING", "IN_ PROGRESS", "CONCLUDED"};
+        JComboBox<String> statusBox = new JComboBox<>(statusTask);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(status, gbc);
+        gbc.gridx = 1;
+        formPanel.add(statusBox, gbc);
+
+
         // Botão Selecionar Prazo
         JLabel prazo = new JLabel("Definir Prazo:");
         JButton selectPrazo = new JButton("Selecione o Prazo");
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         formPanel.add(prazo, gbc);
         gbc.gridx = 1;
         formPanel.add(selectPrazo, gbc);
+
+        final LocalDate[] prazoField = {null};
+        selectPrazo.addActionListener(e -> prazoField[0] = calendar.verifyDeadLine());
 
         // Botão Adicionar Task
         JButton adicionarTask = new JButton("Adicionar Task");
         adicionarTask.setBackground(new Color(0, 100, 90));
         adicionarTask.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         formPanel.add(adicionarTask, gbc);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
 
-        // Ação ao clicar em "Adicionar Task"
-        adicionarTask.addActionListener(e -> {
-            String titulo = taskField.getText();
-            String categoria = (String) categoryComboBox.getSelectedItem();
+        //Acionar o botão ADD
+        adicionarTask.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String titulo = taskField.getText();
+                String prioridadeSelecionada = (String) priorityBox.getSelectedItem();
+                String statusSelecionado = (String) statusBox.getSelectedItem();
+                String categoria = (String) categoryComboBox.getSelectedItem();
 
-            if (titulo != null && !titulo.trim().isEmpty()) {
-                Task task = new Task();
-                task.setTitle(titulo);
-                task.setPriority(Priority.valueOf(priorityBox.getSelectedItem().toString()));
+                // Validação básica
+                if (titulo != null && !titulo.trim().isEmpty() && prazoField[0] != null) {
+                    Task task = new Task(titulo, prioridadeSelecionada, statusSelecionado, prazoField[0]); // Exemplo de criação da Task
+                    try {
+                        adicionarTask.addActionListener(event -> taskManager.add(task));
+                        JOptionPane.showMessageDialog(frame, "Task added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        new Menu();// Adiciona a Task ao Manager
 
-                try {
-                    taskManager.add(task);
-                    menu.addTaskToCategory(categoria, titulo); // Adiciona tarefa à categoria
-                    JOptionPane.showMessageDialog(frame, "Task adicionada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    frame.dispose();
-                } catch (ManagerException ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        frame.dispose();
+                        new Menu();
+                    } catch (ManagerException ex) {
+                        JOptionPane.showMessageDialog(frame, ex.getMessage(), "Invalid fields", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Por favor, preencha todos os campos e defina o prazo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(frame, "Título é obrigatório!", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         });
 

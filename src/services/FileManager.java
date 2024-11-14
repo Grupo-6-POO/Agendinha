@@ -29,7 +29,7 @@ public class FileManager {
     // Método para recuperar todos os dados do arquivo
     public List<String> loadData() {
         List<String> dataList = new ArrayList<>();
-        try (FileReader reader = new FileReader(filePath);
+        try (FileReader reader = new FileReader("src/data/data.txt");
              BufferedReader br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
