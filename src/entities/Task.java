@@ -1,6 +1,5 @@
 package entities;
 import services.Manager;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -35,7 +35,7 @@ public class UpdateTask {
 
         JPanel updatePanel = new JPanel();
         updatePanel.setBorder(BorderFactory.createTitledBorder("Atualizar Task"));
-        updatePanel.setLayout(new GridLayout(5, 1, 5, 5));
+        updatePanel.setLayout(new GridLayout(6, 1, 5, 5));
 
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "ATUALIZAR TASK:", TitledBorder.CENTER, TitledBorder.BELOW_TOP, new Font("Roboto", Font.BOLD, 20), Color.DARK_GRAY));
@@ -58,7 +58,7 @@ public class UpdateTask {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
-        formPanel.add(updateNomeButton);
+        formPanel.add(updateNomeButton, gbc);
 
         // Botão para atualizar a Categoria
         JButton updateCategoriaButton = new JButton("Atualizar Categoria");
@@ -76,7 +76,7 @@ public class UpdateTask {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
-        formPanel.add(updateCategoriaButton);
+        formPanel.add(updateCategoriaButton, gbc);
 
         // Botão para atualizar a Prioridade
         JButton updatePrioridadeButton = new JButton("Atualizar Prioridade");
@@ -93,7 +93,7 @@ public class UpdateTask {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        formPanel.add(updatePrioridadeButton);
+        formPanel.add(updatePrioridadeButton, gbc);
 
         // Botão para atualizar o Status
         JButton updateStatusButton = new JButton("Atualizar Status");
@@ -110,7 +110,7 @@ public class UpdateTask {
         gbc.gridx = 0;
         gbc.gridy = 3  ;
         gbc.gridwidth = 1;
-        formPanel.add(updateStatusButton);
+        formPanel.add(updateStatusButton, gbc);
 
 
         // Botão para atualizar o Prazo
@@ -128,8 +128,10 @@ public class UpdateTask {
         gbc.gridx = 0;
         gbc.gridy = 4  ;
         gbc.gridwidth = 1;
-        frame.add(updatePrazoButton);
+        formPanel.add(updatePrazoButton, gbc);
 
+        updatePanel.add(formPanel, BorderLayout.CENTER);
+        frame.add(updatePanel);
 
         frame.setVisible(true);
     }
