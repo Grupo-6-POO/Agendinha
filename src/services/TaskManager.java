@@ -28,6 +28,7 @@ public class TaskManager extends Task{
     // Lista de tarefas
     private List<Task> tasks = new ArrayList<>();
 
+    // Sobreescrita de método
     public Task add(Task task) {
         System.out.println("Método add chamado");
         if (task == null) {
@@ -54,11 +55,12 @@ public class TaskManager extends Task{
             System.out.println("Chamando salvarTask...");
 
             try {
-                salvarTasksCSV(tasks, "src/data/objetos.csv");
-                //salvarTask(task);
-                carregarTasksCSV("src/data/objetos.csv");
+                salvarTask(task);
+                carregarTask();
                 System.out.println("Tarefa salva.");
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
             return task;
@@ -124,7 +126,7 @@ public class TaskManager extends Task{
 
 
 
-    public static void salvarTask(Task task) throws IOException {
+    public static void salvarTask(Task task) throws IOException { // Salva Objetos
         FileOutputStream fos = new FileOutputStream("src/data/obj.txt");
         ObjectOutputStream os = new ObjectOutputStream(fos);
 
@@ -133,6 +135,7 @@ public class TaskManager extends Task{
         fos.close();
     }
     public static Task carregarTask() throws IOException, ClassNotFoundException {
+        //Lê e retorna objetos
         FileInputStream fis = new FileInputStream("src/data/obj.txt");
         ObjectInputStream is = new ObjectInputStream(fis);
 

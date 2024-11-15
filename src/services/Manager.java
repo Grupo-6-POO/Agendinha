@@ -2,6 +2,7 @@ package services;
 
 public abstract class Manager<M> implements Services <M> {
 
+    //SuperPai do Método Sobrescrito
     public M add(M obj){
         System.out.println("Cada filho terá sua implementação");
         return obj;

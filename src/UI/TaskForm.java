@@ -17,10 +17,9 @@ import java.util.List;
 
 public class TaskForm {
     private Menu menu; // Referência para o Menu
-    private Task taskManager = new TaskManager(); // Instância de TaskManager
+    private Task taskManager = new TaskManager(); // Instância polimórfica de TaskManager
     private Calendar calendar = new Calendar();
     private List<String> categories;
-
 
     public TaskForm(Menu menu) {
         this.menu = menu;
@@ -126,7 +125,7 @@ public class TaskForm {
                 if (titulo != null && !titulo.trim().isEmpty() && prazoField[0] != null) {
                     Task task = new Task(titulo, prioridadeSelecionada, statusSelecionado, prazoField[0], categoria); // Exemplo de criação da Task
                     try {
-                        taskManager.add(task);
+                        taskManager.add(task); // Chamada de método polímorfico
                         JOptionPane.showMessageDialog(frame, "Task added", "Success", JOptionPane.INFORMATION_MESSAGE);
                         menu.addTaskToCategory(categoria, task);
 
